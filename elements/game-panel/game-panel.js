@@ -10,7 +10,6 @@ Polymer({
         this.model = new Game().model;
     },
     onTileTap: function (e) {
-        this.selectTile(e.currentTarget.model);
         this.manageTap(e.currentTarget.model);
     },
     onUnitTap: function (e) {
@@ -18,7 +17,6 @@ Polymer({
         if (targetTile) {
             if (targetTile.state != "canAttack") {
                 this.selectUnit(e.currentTarget);
-                this.selectTile(targetTile);
             }
             this.manageTap(targetTile);
         }
@@ -26,7 +24,6 @@ Polymer({
     manageTap: function (tile) {
         var unit = this.model.getUnitAt(tile.position);
         var selectedUnit = (this.selectedUnit ? this.selectedUnit.model : null);
-        var selectedTile = (this.selectedTile ? this.selectedTile.model : null);
 
         if (selectedUnit) {
             if (!unit) {
@@ -37,8 +34,7 @@ Polymer({
                     var canAttack = false;
                     this.model.tiles.forEach(function (targetTile) {
                         var newState = "";
-                        if (this.selectedTile &&
-                            this.model.isInRange(tile.position, targetTile.position, selectedUnit.weapon.range)) {
+                        if (this.model.isInRange(tile.position, targetTile.position, selectedUnit.weapon.range)) {
                             var unit = this.model.getUnitAt(targetTile.position);
                             if (unit && unit.team != selectedUnit.team) {
                                 newState = "canAttack";
@@ -51,18 +47,17 @@ Polymer({
                     }, this)
 
                     if (!canAttack) {
-                        this.selectUnit();
-                        this.selectTile();
+                        this.resetBoard();
                     } else {
                         this.selectTile(tile)
                     }
                 }
             } else {
                 if (unit == selectedUnit) {
+                    this.selectTile(tile);
                     this.model.tiles.forEach(function (targetTile) {
                         var newState = "";
-                        if (selectedTile && this.model.isInRange(selectedTile.position,
-                            targetTile.position, selectedUnit.move)) {
+                        if (this.model.isInRange(tile.position, targetTile.position, selectedUnit.move)) {
                             var unitOnTile = this.model.getUnitAt(targetTile.position);
                             if (!unitOnTile && this.model.isMovable(targetTile)) {
                                 newState = "canMove";
@@ -82,11 +77,12 @@ Polymer({
                     if (tile.state == "canAttack") {
                         alert(selectedUnit.name + " attacks " + unit.name + " ! ");
                         this.resetBoard();
+                        
                     }
                 }
             }
         } else {
-            this.resetBoard();
+            this.resetBoard(tile);
         }
     },
     selectTile: function (tile) {
@@ -110,7 +106,9 @@ Polymer({
             this.$.unitSelector.clearSelection();
         }
     },
-    resetBoard: function () {
+    resetBoard: function (tile) {
+        this.selectUnit();
+        this.selectTile(tile || null);
         this.model.tiles.forEach(function (targetTile) {
             var index = this.model.tiles.indexOf(targetTile);
             this.set("model.tiles." + index + ".state", "");

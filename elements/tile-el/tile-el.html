@@ -37,8 +37,10 @@
             return "blue";
           } else if (this.model.state == "canMove") {
             return "green";
-          } else if (this.model.state == "noMove" || this.model.state == "canAttack") {
+          } else if (this.model.state == "noMove") {
             return "red";
+          } else if (this.model.state == "canAttack") {
+            return "orange";
           } else {
             return "";
           }
