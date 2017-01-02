@@ -1,0 +1,38 @@
+<dom-module id="unit-el">
+  <template>
+    <link rel="stylesheet" href="unit-el.css">
+    <sprite-el position="{{model.position}}" frame="{{sprite.frame}}" sprite-url="images/{{sprite.url}}"></sprite-el>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: "unit-el",
+        properties: {
+            model: {
+                type: Object,
+                value: {"position": {"x": 0, "y": 0}, "class": "L"}
+            },
+            sprites: {
+                type: Array,
+                value: []
+            },
+            sprite: {
+                type: String,
+                computed: "getSprite(model.class, sprites)"
+            }
+        },
+        getSprite: function() {
+            return this.sprites[this.model.class];
+        },
+        ready: function() {
+            this.sprites = {
+                "B": {"url": "Brigand.gif", "frame": {"x": 0, "y": 0, "width": 16, "height": 18}},
+                "L": {"url": "Lord_Lyn.gif", "frame": {"x": 0, "y": 0, "width": 16, "height": 16}}
+            };
+        }
+     });
+    })();
+  </script>
+</dom-module>

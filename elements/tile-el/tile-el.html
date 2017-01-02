@@ -1,0 +1,58 @@
+<dom-module id="tile-el">
+  <template>
+    <link rel="stylesheet" href="tile-el.css">
+    <sprite-el frame="{{frame}}" position="{{model.position}}" overlay-color="{{overlayColor}}"
+      style="height: {{frame.height}}px; width: {{frame.width}}px;"></sprite-el>
+  </template>
+  <script>
+      Polymer({
+        is: "tile-el",
+        properties: {
+          model: {
+              type: Object,
+              value: {"position": {"x": 0, "y": 0}, "type": "W", "state": ""}
+          },
+          frame: {
+            type: Object,
+            computed: "getFrame(model.type, tileCoords, isSelected)"
+          },
+          tileCoords: {
+            type: Array,
+            value: []
+          },
+          isSelected: {
+            type: Boolean,
+            value: false
+          },
+          overlayColor: {
+            type: String,
+            computed: "getOverlayColor(model.state, isSelected)"
+          }
+        },
+        getFrame: function() {
+          return this.tileCoords[this.model.type]
+        },
+        getOverlayColor: function() {
+          if (this.isSelected) {
+            return "blue";
+          } else if (this.model.state == "canMove") {
+            return "green";
+          } else if (this.model.state == "noMove" || this.model.state == "canAttack") {
+            return "red";
+          } else {
+            return "";
+          }
+        },
+        ready: function() {
+          this.tileCoords = {
+            " ": { x: 1*-16, y: 2*-16, width:"16", height:"16" },
+            "P": { x: 1*-16, y: 14*-16, width:"16", height:"16" },
+            "C": { x: 19*-16, y: 20*-16, width:"16", height:"16" },
+            "M": { x: 11*-16, y: 20*-16, width:"16", height:"16" },
+            "F": { x: 13*-16, y: 22*-16, width:"16", height:"16" },
+            "H": { x: 3*-16, y: 25*-16, width:"16", height:"16" },
+          };
+        }   
+      });
+  </script>
+</dom-module>
