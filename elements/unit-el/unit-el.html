@@ -1,7 +1,9 @@
 <dom-module id="unit-el">
   <template>
-    <link rel="stylesheet" href="unit-el.css">
-    <sprite-el position="{{model.position}}" frame="{{sprite.frame}}" sprite-url="images/{{sprite.url}}"></sprite-el>
+    <style include="unit-styles"></style>
+    <div style="position: absolute; top: {{posY}}px; left: {{posX}}px">
+        <sprite-el frame="{{sprite.frame}}" sprite-url="images/{{sprite.url}}"></sprite-el>
+    </div>
   </template>
   <script>
     (function () {
@@ -21,7 +23,21 @@
             sprite: {
                 type: String,
                 computed: "getSprite(model.class, sprites)"
+            },
+            posX: {
+                type: Number,
+                computed: "calculatePosX(model.position.x)"
+            },
+            posY: {
+                type: Number,
+                computed: "calculatePosY(model.position.y, sprite.frame.height)"
             }
+        },
+        calculatePosX : function(x) {
+          return x * 16;
+        },
+        calculatePosY : function(y, frameHeight) {
+          return (y+1) * 16 - frameHeight;
         },
         getSprite: function() {
             return this.sprites[this.model.class];

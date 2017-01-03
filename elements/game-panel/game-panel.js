@@ -126,11 +126,13 @@ Polymer({
 
         if (attacker.hp > 0 && defender.hp > 0) {
             if (attackerAS - defenderAS >= 4) {
-                this.handleFightRound(attacker, defender);
+                defender.hp -= this.handleFightRound(attacker, defender);
             } else if (defenderAS - attackerAS >= 4) {
-                this.handleFightRound(defender, attacker);
+                attacker.hp -= this.handleFightRound(defender, attacker);
             }
         }
+        this.notifyPath("model.units." + this.model.units.indexOf(attacker) + ".hp");
+        this.notifyPath("model.units." + this.model.units.indexOf(defender) + ".hp");
     },
     handleFightRound: function (attacker, defender) {
         var tile = this.model.getTileAt(defender.position);

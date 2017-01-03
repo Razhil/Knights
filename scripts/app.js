@@ -19,18 +19,18 @@ function Game() {
     this.model = generateMap();
 
     function generateMap() {
-        var tileModel  = '' +
-            'MMHHH  F  MPPPP' + '\n' +
-            '  HHH      MMPP' + '\n' +
-            '   H         MM' + '\n' +
-            '               ' + '\n' +
-            '               ' + '\n' +
-            '               ' + '\n' +
-            '               ' + '\n' +
-            'C            F ' + '\n' +
-            'C           CF ' + '\n' +
-            'C F      CCCC H' + 
-            '';
+        var tileModel  = [
+            'MMHHH  F  MPPPP',
+            '  HHH      MMPP',
+            '   H         MM',
+            '               ',
+            '               ',
+            '               ',
+            '               ',
+            'C            F ',
+            'C           CF ',
+            'C F      CCCC H'
+            ]
 
         var units = [
             {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
@@ -57,17 +57,16 @@ function Game() {
                 "position": {"x": 3, "y": 2}},
         ];
 
-        return {"tiles": initMapModel(tileModel), "units": units};
+        return {"width": tileModel[0].length * 16, "tiles": initMapModel(tileModel), "units": units};
     }
 
-    function initMapModel(rawTileModel) {
+    function initMapModel(tileModel) {
         var tiles = [];
-        var tileModel = rawTileModel.split('\n');
         tileModel.forEach(function(line, row) {
             for (var col in line) {
                 tiles.push({
                     type: line[col],
-                    position: { "x": col-0, "y": row-0 },
+                    position: { "x": parseInt(col), "y": row },
                     state: ""
                 });
             }
