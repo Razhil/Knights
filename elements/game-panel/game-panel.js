@@ -75,9 +75,10 @@ Polymer({
                     }, this);
                 } else {
                     if (tile.state == "canAttack") {
-                        alert(selectedUnit.name + " attacks " + unit.name + " ! ");
+                        console.log(selectedUnit.name + " attacks " + unit.name + " ! ");
+                        this.handleFight(selectedUnit, unit);
                         this.resetBoard();
-                        
+
                     }
                 }
             }
@@ -113,5 +114,67 @@ Polymer({
             var index = this.model.tiles.indexOf(targetTile);
             this.set("model.tiles." + index + ".state", "");
         }, this);
+    },
+    handleFight: function (attacker, defender) {
+        var attackerAS = attacker.speed - Math.max(attacker.weapon.weight - attacker.con, 0);
+        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.con, 0);
+
+        defender.hp -= this.handleFightRound(attacker, defender);
+        if (defender.hp > 0) {
+            attacker.hp -= this.handleFightRound(defender, attacker);
+        }
+
+        if (attacker.hp > 0 && defender.hp > 0) {
+            if (attackerAS - defenderAS >= 4) {
+                this.handleFightRound(attacker, defender);
+            } else if (defenderAS - attackerAS >= 4) {
+                this.handleFightRound(defender, attacker);
+            }
+        }
+    },
+    handleFightRound: function (attacker, defender) {
+        var tile = this.model.getTileAt(defender.position);
+        tile.evade = 0;
+        tile.def = 0;
+        var wpnBonus = this.calculateWeaponTriangleBonus(attacker.weapon.type, defender.weapon.type);
+        var accuracy = attacker.weapon.hit + wpnBonus * 15 +
+                       attacker.skill * 2 + attacker.luck / 2;
+        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.con, 0);
+        var evade = defenderAS * 2 + defender.luck + tile.evade;
+        var hit = accuracy - evade;
+        var crit = attacker.weapon.crit + attacker.skill / 2
+        if (Math.random() <= hit) {
+            var attack = attacker.str + (attacker.weapon.might + wpnBonus) * 1;
+            var defense = tile.def + defender.def;
+            var dmg = attack - defense;
+            console.log(attacker.name + " inflicts " + dmg + " damages !")
+            return dmg;
+        } else {
+            console.log(attacker.name + " inflicts " + 0 + " damage !")
+            return 0;
+        }
+    },
+    calculateWeaponTriangleBonus: function (attackWeaponType, defenderWeaponType) {
+        var wpnBonus = 0;
+        if (attackWeaponType == "sword") {
+            if (defenderWeaponType == "axe") {
+                wpnBonus = 1;
+            } else if (defenderWeaponType == "spear") {
+                wpnBonus = -1;
+            }
+        } else if (attackWeaponType == "axe") {
+            if (defenderWeaponType == "spear") {
+                wpnBonus = 1;
+            } else if (defenderWeaponType == "sword") {
+                wpnBonus = -1;
+            }
+        } else if (attackWeaponType == "spear") {
+            if (defenderWeaponType == "sword") {
+                wpnBonus = 1;
+            } else if (defenderWeaponType == "axe") {
+                wpnBonus = -1;
+            }
+        }
+        return wpnBonus;
     }
 });

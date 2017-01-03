@@ -1,14 +1,25 @@
   <dom-module id="game-panel">
     <template>
       <link rel="stylesheet" href="game-panel.css">
-      <array-selector id="tileSelector" items="{{model.tiles}}" selected="{{selectedTile}}" toggle></array-selector>
-      <template is="dom-repeat" items="{{model.tiles}}">
-        <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
-      </template>
-      <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
-      <template is="dom-repeat" items="{{model.units}}">
-        <unit-el model="{{item}}" on-tap="onUnitTap"></unit-el>
-      </template>
+      <div class="main-panel">
+        <array-selector id="tileSelector" items="{{model.tiles}}" selected="{{selectedTile}}" toggle></array-selector>
+        <template is="dom-repeat" items="{{model.tiles}}">
+          <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
+        </template>
+        <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
+        <template is="dom-repeat" items="{{model.units}}">
+          <unit-el model="{{item}}" on-tap="onUnitTap"></unit-el>
+        </template>
+      </div>
+      <div class="unit-panel">
+        <ul>
+          <template is="dom-repeat" items="{{model.units}}">
+            <li>
+              {{item.name}} {{item.hp}}
+            </li>
+          </template>
+        </ul>
+      </div>
     </template>
     <script src="game-panel.js"></script>
 </dom-module>

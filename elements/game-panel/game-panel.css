@@ -1,5 +1,11 @@
-:host {
-  display: inline-block;
-  height: 400px;
-  width: 400px;
+.main-panel {
+    zoom: 2;
+}
+
+.unit-panel {
+  top: 0;
+  left: 480px;
+  width: 200px;
+  position: absolute;
+  font-size: 12px;
 }

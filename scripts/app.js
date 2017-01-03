@@ -33,14 +33,27 @@ function Game() {
             '';
 
         var units = [
-            {"name": "Lyn", "class": "L", "team": "blue", "move": 5, 
-                "weapon": {"type": "sword", "range": 1},
+            {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
+                "hp": 16, "str": 4, "skill": 7, "speed": 9, "luck": 5, "def": 2, "res": 0,
+                "move": 15, "con": 5, "aid": 4,
+                "weapon": { "name": "Iron Sword", "type": "sword", "level": "E", "range": 1,
+                            "weight": 5, "might": 5, "hit": 90, "critical": 0, "usage": 46,
+                            "description": "Regular sword"},
+                "items": [{"name": "vulnerary", "type": "heal"}],
                 "position": {"x": 13, "y": 7}},
-            {"name": "Brigand", "class": "B", "team": "red", "move": 5, 
-                "weapon": {"type": "axe", "range": 1},
+            {"name": "Brigand", "class": "Brigand", "team": "red", "level": 1,
+                "hp": 20, "str": 5, "skill": 1, "speed": 5, "luck": 0, "def": 3, "res": 0,
+                "move": 5, "con": 12, "aid": 11,
+                "weapon": { "name": "Iron Axe", "type": "axe", "level": "E", "range": 1,
+                            "weight": 10, "might": 8, "hit": 75, "critical": 0, "usage": 45,
+                            "description": "Regular axe"},
                 "position": {"x": 2, "y": 6}},
-            {"name": "Brigand", "class": "B", "team": "red", "move": 0, 
-                "weapon": {"type": "axe", "range": 1},
+            {"name": "Batta", "class": "Brigand", "team": "red", "level": 2,
+                "hp": 21, "str": 5, "skill": 1, "speed": 3, "luck": 2, "def": 3, "res": 0,
+                "move": 0, "con": 10, "aid": 9,
+                "weapon": { "name": "Iron Axe", "type": "axe", "level": "E", "range": 1,
+                            "weight": 10, "might": 8, "hit": 75, "critical": 0, "usage": 45,
+                            "description": "Regular axe"},
                 "position": {"x": 3, "y": 2}},
         ];
 
