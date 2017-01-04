@@ -1,25 +1,48 @@
 <dom-module id="game-panel">
   <template>
     <style include="game-panel-styles"></style>
-    <div class="main-panel" style="width: {{model.width}}px">
-      <array-selector id="tileSelector" items="{{model.tiles}}" selected="{{selectedTile}}" toggle></array-selector>
-      <template is="dom-repeat" items="{{model.tiles}}">
-        <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
-      </template>
-      <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
-      <template is="dom-repeat" items="{{model.units}}">
-        <unit-el model="{{item}}" on-tap="onUnitTap"></unit-el>
-      </template>
-    </div>
-    <div class="unit-panel">
-      <ul>
-        <template is="dom-repeat" items="{{model.units}}">
-          <li>
-            {{item.name}} {{item.hp}}
-          </li>
+    <div class="row">
+      <div class="main-panel" style="width: {{model.width}}px">
+        <array-selector id="tileSelector" items="{{model.tiles}}" selected="{{selectedTile}}" toggle></array-selector>
+        <template is="dom-repeat" items="{{model.tiles}}">
+          <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
         </template>
-      </ul>
+        <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
+        <array-selector id="targetSelector" items="{{model.units}}" selected="{{selectedTarget}}" toggle></array-selector>
+        <template is="dom-repeat" items="{{model.units}}">
+          <unit-el model="{{item}}" on-tap="onUnitTap" on-mouseover="onUnitMouseOver" on-mouseout="onUnitMouseOut"></unit-el>
+        </template>
+      </div>
+      <template is="dom-if" if="{{selectedUnit}}">
+        <div class="unit-panel">
+          <div>{{selectedUnit.model.name}}</div>
+          <div>Class: {{selectedUnit.model.class}}</div>
+          <div>Level: {{selectedUnit.model.level}}</div>
+          <div>HP: {{selectedUnit.model.hp}}/{{selectedUnit.model.maxHp}}</div>
+          <div>Strength: {{selectedUnit.model.strength}}</div>
+          <div>Skill: {{selectedUnit.model.skill}}</div>
+          <div>Speed: {{selectedUnit.model.speed}}</div>
+          <div>Luck: {{selectedUnit.model.luck}}</div>
+          <div>Defense: {{selectedUnit.model.defense}}</div>
+          <div>Resistance: {{selectedUnit.model.resistance}}</div>
+          <div>Move: {{selectedUnit.model.move}}</div>
+          <div>Constitution: {{selectedUnit.model.constitution}}</div>
+          <div>Aid: {{selectedUnit.model.aid}}</div>
+        </div>
+      </template>
     </div>
+    <template is="dom-if" if="{{selectedTarget}}">
+      <div class="fight-panel">
+        <div class="unit">
+          <div>{{selectedUnit.model.name}}</div>
+          <div>HP: {{selectedUnit.model.hp}}/{{selectedUnit.model.maxHp}}</div>
+        </div>
+        <div class="unit">
+          <div>{{selectedTarget.model.name}}</div>
+          <div>HP: {{selectedTarget.model.hp}}/{{selectedTarget.model.maxHp}}</div>
+        </div>
+      </div>
+    </template>
   </template>
   <script src="game-panel.js"></script>
 </dom-module>

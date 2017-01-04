@@ -21,9 +21,19 @@ Polymer({
             this.manageTap(targetTile);
         }
     },
+    onUnitMouseOver: function (e) {
+        var targetTile = this.model.getTileAt(e.currentTarget.model.position);
+        if (targetTile && targetTile.state == "canAttack") {
+            this.selectTarget(e.currentTarget);
+        }
+    },
+    onUnitMouseOut: function (e) {
+        this.selectTarget();
+    },
     manageTap: function (tile) {
         var unit = this.model.getUnitAt(tile.position);
         var selectedUnit = (this.selectedUnit ? this.selectedUnit.model : null);
+        var selectedTarget = (this.selectedTarget ? this.selectedTarget.model : null);
 
         if (selectedUnit) {
             if (!unit) {
@@ -74,11 +84,10 @@ Polymer({
                         this.set("model.tiles." + index + ".state", newState);
                     }, this);
                 } else {
-                    if (tile.state == "canAttack") {
+                    if (selectedTarget) {
                         console.log(selectedUnit.name + " attacks " + unit.name + " ! ");
                         this.handleFight(selectedUnit, unit);
                         this.resetBoard();
-
                     }
                 }
             }
@@ -107,8 +116,16 @@ Polymer({
             this.$.unitSelector.clearSelection();
         }
     },
+    selectTarget: function (unit) {
+        if (unit) {
+            this.$.targetSelector.select(unit);
+        } else {
+            this.$.targetSelector.clearSelection();
+        }
+    },
     resetBoard: function (tile) {
         this.selectUnit();
+        this.selectTarget();
         this.selectTile(tile || null);
         this.model.tiles.forEach(function (targetTile) {
             var index = this.model.tiles.indexOf(targetTile);
@@ -116,8 +133,8 @@ Polymer({
         }, this);
     },
     handleFight: function (attacker, defender) {
-        var attackerAS = attacker.speed - Math.max(attacker.weapon.weight - attacker.con, 0);
-        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.con, 0);
+        var attackerAS = attacker.speed - Math.max(attacker.weapon.weight - attacker.constitution, 0);
+        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.constitution, 0);
 
         defender.hp -= this.handleFightRound(attacker, defender);
         if (defender.hp > 0) {
@@ -137,22 +154,22 @@ Polymer({
     handleFightRound: function (attacker, defender) {
         var tile = this.model.getTileAt(defender.position);
         tile.evade = 0;
-        tile.def = 0;
+        tile.defense = 0;
         var wpnBonus = this.calculateWeaponTriangleBonus(attacker.weapon.type, defender.weapon.type);
         var accuracy = attacker.weapon.hit + wpnBonus * 15 +
                        attacker.skill * 2 + attacker.luck / 2;
-        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.con, 0);
+        var defenderAS = defender.speed - Math.max(defender.weapon.weight - defender.constitution, 0);
         var evade = defenderAS * 2 + defender.luck + tile.evade;
         var hit = accuracy - evade;
         var crit = attacker.weapon.crit + attacker.skill / 2
-        if (Math.random() <= hit) {
-            var attack = attacker.str + (attacker.weapon.might + wpnBonus) * 1;
-            var defense = tile.def + defender.def;
+        if (Math.random()*100 <= hit) {
+            var attack = attacker.strength + (attacker.weapon.might + wpnBonus) * 1;
+            var defense = tile.defense + defender.defense;
             var dmg = attack - defense;
             console.log(attacker.name + " inflicts " + dmg + " damages !")
             return dmg;
         } else {
-            console.log(attacker.name + " inflicts " + 0 + " damage !")
+            console.log(attacker.name + " miss !")
             return 0;
         }
     },
