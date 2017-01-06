@@ -34,12 +34,13 @@ function Game() {
 
         var units = [
             {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
-                "hp": 16, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
+                "hp": 15, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
                 "move": 15, "constitution": 5, "aid": 4,
                 "weapon": { "name": "Iron Sword", "type": "sword", "level": "E", "range": 1,
                             "weight": 5, "might": 5, "hit": 90, "critical": 0, "usage": 46,
                             "description": "Regular sword"},
-                "items": [{"name": "vulnerary", "type": "heal"}],
+                "items": [{"name": "Vulnerary", "type": "heal", "heal": 10, "quantity": 3},
+                          {"name": "Vulnerary", "type": "heal", "heal": 10, "quantity": 3}],
                 "position": {"x": 13, "y": 7}},
             {"name": "Brigand", "class": "Brigand", "team": "red", "level": 1,
                 "hp": 20, "maxHp": 20, "strength": 5, "skill": 1, "speed": 5, "luck": 0, "defense": 3, "resistance": 0,
@@ -67,7 +68,9 @@ function Game() {
                 tiles.push({
                     type: line[col],
                     position: { "x": parseInt(col), "y": row },
-                    state: ""
+                    state: "",
+                    defense: 0,
+                    evade: 0
                 });
             }
         });
