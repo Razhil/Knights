@@ -2,12 +2,11 @@ Polymer learning project : Knights (based on FE7)
 
 Backlog :
 Complete first level (prologue)
-- Better map generation
-- Better style for side-windows 
 - Show weapon triangle advantage (green/red arrow next to wpn image)
 - Fight animations
 - Path finding
 - Victory conditions (put shield on "boss")
+
 Second level
 - Turn mgt
 - Life regen on fort
@@ -16,6 +15,14 @@ Second level
 - Exp
 - Weapon expertise
 
+Whenever
+Functionalities :
 - Move cancelling
 - Basic AI
 - Advanced AI
+
+Style :
+- Better style for side-windows
+- Custom font
+- Animated tiles (water, ...)
+- Unit sprites for moving on map

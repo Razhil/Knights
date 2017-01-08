@@ -3,11 +3,12 @@
 var TileTypes = [
     {name:"Plain", short: " ", defense: 0, avoid: 0, moveCost: 2, canWalk: true},
     {name:"Forest", short: "F", defense: 1, avoid: 20, moveCost: 2, canWalk: true},
-    {name:"Mountain", short: "M", defense: 2, avoid: 30, moveCost: 4, canWalk: true},
+    {name:"Mountain", short: "M", defense: 1, avoid: 30, moveCost: 4, canWalk: true},
     {name:"Peak", short: "P", defense: 2, avoid: 40, moveCost: 4, canWalk: false},
     {name:"House", short: "H", defense: 0, avoid: 10, moveCost: 1, canWalk: true},
     {name:"Gate", short: "G", defense: 2, avoid: 20, moveCost: 1, canWalk: true},
-    {name:"Cliff", short: "C", defense: 0, avoid: 0, moveCost: 0, canWalk: false}
+    {name:"Cliff", short: "C", defense: 0, avoid: 0, moveCost: 0, canWalk: false},
+    {name:"", short: "X", defense: 0, avoid: 0, moveCost: 0, canWalk: false}
 ];
 
 var UnitTypes = {
@@ -20,9 +21,11 @@ function Game() {
     this.model = generateMap();
 
     function generateMap() {
+        var mapName = "map0.png";
+
         var tileModel  = [
-            'MMHHH  F  MPPPP',
-            '  HHH      MMPP',
+            'MMXXX  F  MPPPP',
+            '  XXX      MMPP',
             '   G         MM',
             '               ',
             '               ',
@@ -36,7 +39,7 @@ function Game() {
         var units = [
             {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
                 "hp": 16, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
-                "move": 15, "constitution": 5, "aid": 4,
+                "move": 5, "constitution": 5, "aid": 4,
                 "weapon": { "name": "Iron Sword", "type": "sword", "level": "E", "range": 1,
                             "weight": 5, "might": 5, "hit": 90, "critical": 0, "usage": 46,
                             "description": "Regular sword"},
@@ -59,7 +62,7 @@ function Game() {
                 "position": {"x": 3, "y": 2}},
         ];
 
-        return {"width": tileModel[0].length * 16, "tiles": initMapModel(tileModel), "units": units};
+        return {"mapName": mapName, "width": tileModel[0].length * 16, "tiles": initMapModel(tileModel), "units": units};
     }
 
     function initMapModel(tileModel) {

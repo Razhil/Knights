@@ -1,57 +1,67 @@
 <dom-module id="sprite-el">
   <template>
     <div style="height: {{frame.height}}px; width: {{frame.width}}px; 
-        background: {{getBackground(spriteUrl, overlayColor)}} {{frame.x}}px {{frame.y}}px no-repeat">
+        {{getBackground(spriteUrl, overlayColor, frame)}}">
     </div>
   </template>
   <script>
-      Polymer({
-        is: "sprite-el",
-        properties: {
-          spriteUrl: {
-            type: String,
-            value: "images/tileset.png",
-          },
-          overlayColor: {
-            type: String,
-            value: ""
-          },
-          frame: {
-            type: Object,
-            value: {"x": 0, "y":0}
-          },
-          position: {
-            type: Object,
-            value: {"x": 0, "y":0}
-          },
-          posX: {
-            type: Number,
-            computed: "calculatePosX(position.x)"
-          },
-          posY: {
-            type: Number,
-            computed: "calculatePosY(position.y, frame.height)"
-          }
+    Polymer({
+      is: "sprite-el",
+      properties: {
+        spriteUrl: {
+          type: String,
+          value: "",
         },
-        calculatePosX : function(x) {
-          return x * 16;
+        overlayColor: {
+          type: String,
+          value: ""
         },
-        calculatePosY : function(y, frameHeight) {
-          return (y+1) * 16 - frameHeight;
+        frame: {
+          type: Object,
+          value: { "x": 0, "y": 0 }
         },
-        getBackground : function() {
-          var background = "";
-          if (this.overlayColor == "green") {
-            background = "linear-gradient(rgba(0, 255, 0, 0.45), rgba(0, 255, 0, 0.45)), ";
-          } else if (this.overlayColor == "blue") {
-            background = "linear-gradient(rgba(0, 0, 255, 0.45), rgba(0, 0, 255, 0.45)), ";
-          } else if (this.overlayColor == "red") {
-            background = "linear-gradient(rgba(255, 0, 0, 0.45), rgba(255, 0, 0, 0.45)), ";
-          } else if (this.overlayColor == "orange") {
-            background = "linear-gradient(rgba(255, 165, 0, 0.45), rgba(255, 165, 0, 0.45)), ";
-          }
-          return background += "url("+this.spriteUrl+")";
+        position: {
+          type: Object,
+          value: { "x": 0, "y": 0 }
+        },
+        posX: {
+          type: Number,
+          computed: "calculatePosX(position.x)"
+        },
+        posY: {
+          type: Number,
+          computed: "calculatePosY(position.y, frame.height)"
         }
-      });
+      },
+      calculatePosX: function (x) {
+        return x * 16;
+      },
+      calculatePosY: function (y, frameHeight) {
+        return (y + 1) * 16 - frameHeight;
+      },
+      getBackground: function () {
+        var background = "background: ";
+        var overlayColor = "";
+        if (this.overlayColor == "green") {
+          overlayColor += "linear-gradient(rgba(0, 255, 0, 0.45), rgba(0, 255, 0, 0.45))";
+        } else if (this.overlayColor == "blue") {
+          overlayColor += "linear-gradient(rgba(0, 0, 255, 0.45), rgba(0, 0, 255, 0.45))";
+        } else if (this.overlayColor == "red") {
+          overlayColor += "linear-gradient(rgba(255, 0, 0, 0.45), rgba(255, 0, 0, 0.45))";
+        } else if (this.overlayColor == "orange") {
+          overlayColor += "linear-gradient(rgba(255, 165, 0, 0.45), rgba(255, 165, 0, 0.45))";
+        }
+        if (overlayColor != "") {
+          background += overlayColor
+          if (this.spriteUrl) {
+            background += ", ";
+          }
+        }
+        if (this.spriteUrl) {
+          background += "url(" + this.spriteUrl + ") " + this.frame.x + "px " + this.frame.y + "px no-repeat";
+        }
+        return background;
+      }
+    });
   </script>
 </dom-module>
