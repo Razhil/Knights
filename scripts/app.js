@@ -1,13 +1,14 @@
 'use strict';
 
-var TileTypes = {
-    EMPTY: ' ',
-    PIKE: 'P',
-    CLIFF: 'C',
-    MOUNTAIN: 'M',
-    FOREST: 'F',
-    HOUSE: 'H'
-};
+var TileTypes = [
+    {name:"PLAIN", short: " ", defense: 0, avoid: 0, moveCost: 2, canWalk: true},
+    {name:"FOREST", short: "F", defense: 1, avoid: 20, moveCost: 2, canWalk: true},
+    {name:"MOUNTAIN", short: "M", defense: 2, avoid: 30, moveCost: 4, canWalk: true},
+    {name:"PEAK", short: "P", defense: 2, avoid: 40, moveCost: 4, canWalk: false},
+    {name:"HOUSE", short: "H", defense: 0, avoid: 10, moveCost: 1, canWalk: true},
+    {name:"THRONE", short: "T", defense: 2, avoid: 20, moveCost: 1, canWalk: true},
+    {name:"CLIFF", short: "C", defense: 0, avoid: 0, moveCost: 0, canWalk: false}
+];
 
 var UnitTypes = {
     LYN: 'L',
@@ -22,7 +23,7 @@ function Game() {
         var tileModel  = [
             'MMHHH  F  MPPPP',
             '  HHH      MMPP',
-            '   H         MM',
+            '   T         MM',
             '               ',
             '               ',
             '               ',
@@ -34,7 +35,7 @@ function Game() {
 
         var units = [
             {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
-                "hp": 15, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
+                "hp": 16, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
                 "move": 15, "constitution": 5, "aid": 4,
                 "weapon": { "name": "Iron Sword", "type": "sword", "level": "E", "range": 1,
                             "weight": 5, "might": 5, "hit": 90, "critical": 0, "usage": 46,
@@ -65,8 +66,11 @@ function Game() {
         var tiles = [];
         tileModel.forEach(function(line, row) {
             for (var col in line) {
+                var tileType = TileTypes.filter(function(tile) {
+                    return tile.short === line[col];
+                });
                 tiles.push({
-                    type: line[col],
+                    type: tileType[0],
                     position: { "x": parseInt(col), "y": row },
                     state: "",
                     defense: 0,
@@ -98,8 +102,4 @@ function Game() {
         var distance = Math.abs(origin.x - target.x) + Math.abs(origin.y - target.y);
         return distance <= range;
     };
-
-    this.model.isMovable = function(tile) {
-        return [TileTypes.EMPTY, TileTypes.FOREST, TileTypes.HOUSE, TileTypes.MOUNTAIN].indexOf(tile.type) >= 0;
-    }
 }

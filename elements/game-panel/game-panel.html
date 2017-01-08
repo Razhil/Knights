@@ -43,14 +43,14 @@
     <div class="unit">
       <div>{{selectedUnit.name}}</div>
       <div>HP: {{selectedUnit.hp}}</div>
-      <div>Damage: {{selectedUnit.damage}}</div>
+      <div>Damage: {{selectedUnit.damage}} <template is="dom-if" if="{{selectedUnit.attacksTwice}}"><span>x 2</span></template></div>
       <div>Hit: {{selectedUnit.hit}}</div>
       <div>Critical: {{selectedUnit.critical}}</div>
     </div>
     <div class="unit">
       <div>{{selectedTarget.name}}</div>
       <div>HP: {{selectedTarget.hp}}</div>
-      <div>Damage: {{selectedTarget.damage}}</div>
+      <div>Damage: {{selectedTarget.damage}} <template is="dom-if" if="{{selectedTarget.attacksTwice}}"><span>x 2</span></template></div>
       <div>Hit: {{selectedTarget.hit}}</div>
       <div>Critical: {{selectedTarget.critical}}</div>
     </div>

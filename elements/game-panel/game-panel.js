@@ -41,7 +41,7 @@ Polymer({
                     selectedUnit.hp = Math.min(selectedUnit.maxHp, selectedUnit.hp + item.heal);
                     item.quantity -= 1;
                     this.notifyPath("selectedUnit.hp");
-                    this.notifyPath("selectedUnit.items."+ index + ".quantity");
+                    this.notifyPath("selectedUnit.items." + index + ".quantity");
                 } else {
                     console.log(selectedUnit.name + " is full hp");
                 }
@@ -55,7 +55,7 @@ Polymer({
     manageTap: function (tile) {
         var unit = this.model.getUnitAt(tile.position);
         var selectedUnit = this.selectedUnit || null;
-        var selectedTarget = this.selectedTarget ||  null;
+        var selectedTarget = this.selectedTarget || null;
 
         if (selectedUnit) {
             if (!unit) {
@@ -91,7 +91,7 @@ Polymer({
                         var newState = "";
                         if (this.model.isInRange(tile.position, targetTile.position, selectedUnit.move)) {
                             var unitOnTile = this.model.getUnitAt(targetTile.position);
-                            if (!unitOnTile && this.model.isMovable(targetTile)) {
+                            if (!unitOnTile && targetTile.type.canWalk) {
                                 newState = "canMove";
                             } else {
                                 if (unitOnTile && this.model.isInRange(tile.position, targetTile.position, 1) &&
@@ -164,24 +164,29 @@ Polymer({
         this.calculateFightStats(defender, -wpnBonus);
         this.calculateFightStats2(attacker, defender);
         this.calculateFightStats2(defender, attacker);
+
+        this.notifyPath("selectedUnit.damage");
+        this.notifyPath("selectedUnit.attacksTwice");
+        this.notifyPath("selectedUnit.hit");
+        this.notifyPath("selectedUnit.critical");
     },
     calculateFightStats: function (unit, wpnBonus) {
         var tile = this.model.getTileAt(unit.position);
 
         unit.attack = unit.strength + (unit.weapon.might + wpnBonus) * 1;
-        unit.defense = tile.defense + unit.defense;
+        unit.physicalDefense = tile.type.defense + unit.defense;
 
         unit.accuracy = unit.weapon.hit + wpnBonus * 15 +
             unit.skill * 2 + unit.luck / 2;
         unit.AS = unit.speed - Math.max(unit.weapon.weight - unit.constitution, 0);
-        unit.evade = unit.AS * 2 + unit.luck + tile.evade;
+        unit.evade = unit.AS * 2 + unit.luck + tile.type.avoid;
         unit.criticalRate = unit.weapon.critical + unit.skill / 2;
         unit.criticalAvoid = 0;
     },
     calculateFightStats2: function (attacker, defender) {
-        attacker.hit = Math.min(Math.floor(attacker.accuracy - defender.evade), 100);
-        attacker.damage = attacker.attack - defender.defense;
+        attacker.damage = attacker.attack - defender.physicalDefense;
         attacker.attacksTwice = (attacker.AS - defender.AS >= 4);
+        attacker.hit = Math.min(Math.floor(attacker.accuracy - defender.evade), 100);
         attacker.critical = Math.floor(attacker.criticalRate - defender.criticalAvoid);
     },
     handleFight: function (attacker, defender) {
@@ -196,6 +201,12 @@ Polymer({
             } else if (defender.attacksTwice) {
                 attacker.hp -= this.handleFightRound(defender);
             }
+        }
+
+        if (attacker.hp <= 0) {
+            this.kill(attacker);
+        } else if (defender.hp <= 0) {
+            this.kill(defender);
         }
         this.notifyPath("model.units." + this.model.units.indexOf(attacker) + ".hp");
         this.notifyPath("model.units." + this.model.units.indexOf(defender) + ".hp");
@@ -235,5 +246,9 @@ Polymer({
             }
         }
         return wpnBonus;
+    },
+    kill: function (unit) {
+        console.log(unit.name + " is dead.");
+        this.splice("model.units", this.model.units.indexOf(unit), 1);
     }
 });
