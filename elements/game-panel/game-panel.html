@@ -8,7 +8,7 @@
   <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
 </template>
 <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
-<array-selector id="targetSelector" items="{{model.units}}" selected="{{selectedTarget}}" toggle></array-selector>
+<array-selector id="targetSelector" items="{{model.units}}" selected="{{selectedTarget}}"></array-selector>
 <template is="dom-repeat" items="{{model.units}}">
   <unit-el model="{{item}}" on-tap="onUnitTap" on-mouseover="onUnitMouseOver" on-mouseout="onUnitMouseOut"></unit-el>
 </template>

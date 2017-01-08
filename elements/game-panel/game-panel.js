@@ -149,15 +149,14 @@ Polymer({
     },
     selectTarget: function (unit) {
         if (unit) {
+            this.prepareFight(unit);
             this.$.targetSelector.select(unit);
-            this.prepareFight();
         } else {
             this.$.targetSelector.clearSelection();
         }
     },
-    prepareFight: function () {
+    prepareFight: function (defender) {
         var attacker = this.selectedUnit;
-        var defender = this.selectedTarget;
 
         var wpnBonus = this.calculateWeaponTriangleBonus(attacker.weapon.type, defender.weapon.type);
 
