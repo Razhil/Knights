@@ -49,8 +49,14 @@
       <div class="fight-panel">
         <div class="unit">
           <div>{{selectedUnit.name}}</div>
+          <div>
+            {{selectedUnit.weapon.name}}
+            <template is="dom-if" if="{{selectedUnit.hasWpnAdv}}"><span>(Wpn Adv.)</span></template>
+            <template is="dom-if" if="{{selectedUnit.hasWpnDis}}"><span>(Wpn Dis.)</span></template>
+          </div>
           <div>HP: {{selectedUnit.hp}}</div>
-          <div>Damage: {{selectedUnit.damage}}
+          <div>
+            Damage: {{selectedUnit.damage}}
             <template is="dom-if" if="{{selectedUnit.attacksTwice}}"><span>x 2</span></template>
           </div>
           <div>Hit: {{selectedUnit.hit}}</div>
@@ -58,6 +64,11 @@
         </div>
         <div class="unit">
           <div>{{selectedTarget.name}}</div>
+          <div>
+            {{selectedTarget.weapon.name}}
+            <template is="dom-if" if="{{selectedTarget.hasWpnAdv}}"><span>(Wpn Adv.)</span></template>
+            <template is="dom-if" if="{{selectedTarget.hasWpnDis}}"><span>(Wpn Dis.)</span></template>
+          </div>
           <div>HP: {{selectedTarget.hp}}</div>
           <div>Damage: {{selectedTarget.damage}}
             <template is="dom-if" if="{{selectedTarget.attacksTwice}}"><span>x 2</span></template>

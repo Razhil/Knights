@@ -2,7 +2,6 @@ Polymer learning project : Knights (based on FE7)
 
 Backlog :
 Complete first level (prologue)
-- Show weapon triangle advantage (green/red arrow next to wpn image)
 - Fight animations
 - Path finding
 - Victory conditions (put shield on "boss")

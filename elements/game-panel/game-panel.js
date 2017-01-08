@@ -164,6 +164,8 @@ Polymer({
         this.calculateFightStats2(attacker, defender);
         this.calculateFightStats2(defender, attacker);
 
+        this.notifyPath("selectedUnit.hasWpnAdv");
+        this.notifyPath("selectedUnit.hasWpnDis");
         this.notifyPath("selectedUnit.damage");
         this.notifyPath("selectedUnit.attacksTwice");
         this.notifyPath("selectedUnit.hit");
@@ -172,6 +174,8 @@ Polymer({
     calculateFightStats: function (unit, wpnBonus) {
         var tile = this.model.getTileAt(unit.position);
 
+        unit.hasWpnAdv = (wpnBonus == 1 ? true : false);
+        unit.hasWpnDis = (wpnBonus == -1 ? true : false);
         unit.attack = unit.strength + (unit.weapon.might + wpnBonus) * 1;
         unit.physicalDefense = tile.type.defense + unit.defense;
 

@@ -39,7 +39,7 @@ function Game() {
         var units = [
             {"name": "Lyn", "class": "Lord", "team": "blue", "level": 1,
                 "hp": 16, "maxHp": 16, "strength": 4, "skill": 7, "speed": 9, "luck": 5, "defense": 2, "resistance": 0,
-                "move": 5, "constitution": 5, "aid": 4,
+                "move": 15, "constitution": 5, "aid": 4,
                 "weapon": { "name": "Iron Sword", "type": "sword", "level": "E", "range": 1,
                             "weight": 5, "might": 5, "hit": 90, "critical": 0, "usage": 46,
                             "description": "Regular sword"},
