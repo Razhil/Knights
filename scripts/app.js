@@ -71,10 +71,9 @@ function Game() {
                 });
                 tiles.push({
                     type: tileType[0],
+                    isSelected: false,
                     position: { "x": parseInt(col), "y": row },
-                    state: "",
-                    defense: 0,
-                    evade: 0
+                    state: ""
                 });
             }
         });

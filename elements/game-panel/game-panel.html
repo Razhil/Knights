@@ -5,7 +5,7 @@
       <div class="main-panel" style="width: {{model.width}}px">
 <array-selector id="tileSelector" items="{{model.tiles}}" selected="{{selectedTile}}" toggle></array-selector>
 <template is="dom-repeat" items="{{model.tiles}}">
-  <tile-el id="tile{{index}}" model="{{item}}" on-tap="onTileTap"></tile-el>
+  <tile-el model="{{item}}" on-tap="onTileTap"></tile-el>
 </template>
 <array-selector id="unitSelector" items="{{model.units}}" selected="{{selectedUnit}}" toggle></array-selector>
 <array-selector id="targetSelector" items="{{model.units}}" selected="{{selectedTarget}}"></array-selector>
@@ -13,8 +13,8 @@
   <unit-el model="{{item}}" on-tap="onUnitTap" on-mouseover="onUnitMouseOver" on-mouseout="onUnitMouseOut"></unit-el>
 </template>
 </div>
-<template is="dom-if" if="{{selectedUnit}}">
-  <div class="side-panel">
+<div class="side-panel">
+  <template is="dom-if" if="{{selectedUnit}}">
     <div class="unit-panel">
       <div>{{selectedUnit.name}}</div>
       <div>Class: {{selectedUnit.class}}</div>
@@ -29,28 +29,39 @@
       <div>Move: {{selectedUnit.move}}</div>
       <div>Constitution: {{selectedUnit.constitution}}</div>
       <div>Aid: {{selectedUnit.aid}}</div>
+      <div class="item-panel">
+        <template is="dom-repeat" items="{{selectedUnit.items}}">
+          <div id="item{{index}}" on-tap="onItemTap">{{item.name}} : {{item.quantity}}</div>
+        </template>
+      </div>
     </div>
-    <div class="item-panel">
-      <template is="dom-repeat" items="{{selectedUnit.items}}">
-        <div id="item{{index}}" on-tap="onItemTap">{{item.name}} : {{item.quantity}}</div>
-      </template>
+  </template>
+  <template is="dom-if" if="{{selectedTile}}">
+    <div class="tile-panel">
+      <div>{{selectedTile.type.name}}</div>
+      <div>Defense : {{selectedTile.type.defense}}</div>
+      <div>Avoid : {{selectedTile.type.avoid}}</div>
     </div>
-  </div>
-</template>
+  </template>
+</div>
 </div>
 <template is="dom-if" if="{{selectedTarget}}">
   <div class="fight-panel">
     <div class="unit">
       <div>{{selectedUnit.name}}</div>
       <div>HP: {{selectedUnit.hp}}</div>
-      <div>Damage: {{selectedUnit.damage}} <template is="dom-if" if="{{selectedUnit.attacksTwice}}"><span>x 2</span></template></div>
+      <div>Damage: {{selectedUnit.damage}}
+        <template is="dom-if" if="{{selectedUnit.attacksTwice}}"><span>x 2</span></template>
+      </div>
       <div>Hit: {{selectedUnit.hit}}</div>
       <div>Critical: {{selectedUnit.critical}}</div>
     </div>
     <div class="unit">
       <div>{{selectedTarget.name}}</div>
       <div>HP: {{selectedTarget.hp}}</div>
-      <div>Damage: {{selectedTarget.damage}} <template is="dom-if" if="{{selectedTarget.attacksTwice}}"><span>x 2</span></template></div>
+      <div>Damage: {{selectedTarget.damage}}
+        <template is="dom-if" if="{{selectedTarget.attacksTwice}}"><span>x 2</span></template>
+      </div>
       <div>Hit: {{selectedTarget.hit}}</div>
       <div>Critical: {{selectedTarget.critical}}</div>
     </div>

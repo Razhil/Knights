@@ -128,13 +128,12 @@ Polymer({
     },
     selectTile: function (tile) {
         if (this.selectedTile) {
-            this.selectedTile.isSelected = false;
+            this.set("selectedTile.isSelected", false);
         }
         if (tile) {
-            var index = this.model.tiles.indexOf(tile);
-            this.$.tileSelector.select(this.querySelector("#tile" + index));
+            this.$.tileSelector.select(tile);
             if (this.selectedTile) {
-                this.selectedTile.isSelected = true;
+                this.set("selectedTile.isSelected", true);
             }
         } else {
             this.$.tileSelector.clearSelection();

@@ -2,7 +2,6 @@ Polymer learning project : Knights (based on FE7)
 
 Backlog :
 Complete first level (prologue)
-- Display bonus from current terrain
 - Better map generation
 - Better style for side-windows 
 - Show weapon triangle advantage (green/red arrow next to wpn image)

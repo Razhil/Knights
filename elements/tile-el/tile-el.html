@@ -12,26 +12,22 @@
           },
           frame: {
             type: Object,
-            computed: "getFrame(model.type, tileCoords, isSelected)"
+            computed: "getFrame(model.type, tileCoords, model.isSelected)"
           },
           tileCoords: {
             type: Array,
             value: []
           },
-          isSelected: {
-            type: Boolean,
-            value: false
-          },
           overlayColor: {
             type: String,
-            computed: "getOverlayColor(model.state, isSelected)"
+            computed: "getOverlayColor(model.state, model.isSelected)"
           }
         },
         getFrame: function() {
           return this.tileCoords[this.model.type.name]
         },
         getOverlayColor: function() {
-          if (this.isSelected) {
+          if (this.model.isSelected) {
             return "blue";
           } else if (this.model.state == "canMove") {
             return "green";
