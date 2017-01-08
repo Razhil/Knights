@@ -181,7 +181,7 @@ Polymer({
         unit.AS = unit.speed - Math.max(unit.weapon.weight - unit.constitution, 0);
         unit.evade = unit.AS * 2 + unit.luck + tile.type.avoid;
         unit.criticalRate = unit.weapon.critical + unit.skill / 2;
-        unit.criticalAvoid = 0;
+        unit.criticalAvoid = unit.luck;
     },
     calculateFightStats2: function (attacker, defender) {
         attacker.damage = attacker.attack - defender.physicalDefense;

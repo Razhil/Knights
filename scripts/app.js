@@ -1,13 +1,13 @@
 'use strict';
 
 var TileTypes = [
-    {name:"PLAIN", short: " ", defense: 0, avoid: 0, moveCost: 2, canWalk: true},
-    {name:"FOREST", short: "F", defense: 1, avoid: 20, moveCost: 2, canWalk: true},
-    {name:"MOUNTAIN", short: "M", defense: 2, avoid: 30, moveCost: 4, canWalk: true},
-    {name:"PEAK", short: "P", defense: 2, avoid: 40, moveCost: 4, canWalk: false},
-    {name:"HOUSE", short: "H", defense: 0, avoid: 10, moveCost: 1, canWalk: true},
-    {name:"THRONE", short: "T", defense: 2, avoid: 20, moveCost: 1, canWalk: true},
-    {name:"CLIFF", short: "C", defense: 0, avoid: 0, moveCost: 0, canWalk: false}
+    {name:"Plain", short: " ", defense: 0, avoid: 0, moveCost: 2, canWalk: true},
+    {name:"Forest", short: "F", defense: 1, avoid: 20, moveCost: 2, canWalk: true},
+    {name:"Mountain", short: "M", defense: 2, avoid: 30, moveCost: 4, canWalk: true},
+    {name:"Peak", short: "P", defense: 2, avoid: 40, moveCost: 4, canWalk: false},
+    {name:"House", short: "H", defense: 0, avoid: 10, moveCost: 1, canWalk: true},
+    {name:"Gate", short: "G", defense: 2, avoid: 20, moveCost: 1, canWalk: true},
+    {name:"Cliff", short: "C", defense: 0, avoid: 0, moveCost: 0, canWalk: false}
 ];
 
 var UnitTypes = {
@@ -23,7 +23,7 @@ function Game() {
         var tileModel  = [
             'MMHHH  F  MPPPP',
             '  HHH      MMPP',
-            '   T         MM',
+            '   G         MM',
             '               ',
             '               ',
             '               ',
