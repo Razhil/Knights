@@ -25,3 +25,4 @@ Style :
 - Custom font
 - Animated tiles (water, ...)
 - Unit sprites for moving on map
+- Music & sound effects
