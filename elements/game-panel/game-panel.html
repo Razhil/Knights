@@ -12,6 +12,10 @@
         <template is="dom-repeat" items="{{model.units}}">
           <unit-el model="{{item}}" on-tap="onUnitTap" on-mouseover="onUnitMouseOver" on-mouseout="onUnitMouseOut"></unit-el>
         </template>
+        <div class="fight-panel" style="display:none;">
+          <img class="left-unit" src="../../images/fight/batta_axe.gif"></img>
+          <img class="right-unit" src="../../images/fight/lyn_lord_sword.gif"></img>
+        </div>
       </div>
       <div class="side-panel">
         <template is="dom-if" if="{{selectedUnit}}">
@@ -46,7 +50,7 @@
       </div>
     </div>
     <template is="dom-if" if="{{selectedTarget}}">
-      <div class="fight-panel">
+      <div class="prefight-panel">
         <div class="unit">
           <div>{{selectedUnit.name}}</div>
           <div>

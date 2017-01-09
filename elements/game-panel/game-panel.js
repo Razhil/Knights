@@ -190,7 +190,7 @@ Polymer({
         attacker.damage = attacker.attack - defender.physicalDefense;
         attacker.attacksTwice = (attacker.AS - defender.AS >= 4);
         attacker.hit = Math.min(Math.floor(attacker.accuracy - defender.evade), 100);
-        attacker.critical = Math.floor(attacker.criticalRate - defender.criticalAvoid);
+        attacker.critical = Math.max(Math.floor(attacker.criticalRate - defender.criticalAvoid), 0);
     },
     handleFight: function (attacker, defender) {
         defender.hp -= this.handleFightRound(attacker);
